@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(jsonlite)\n##select url\n##\njson <-  file(\"Data.json\")\nmydf <- fromJSON(json)\n\n##process data\n##select",
+    "created" : 1489253238250.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1274703734",
+    "id" : "5A8F2E81",
+    "lastKnownWriteTime" : 1487163706,
+    "last_content_update" : 1487163706,
+    "path" : "~/Test/testScript.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
