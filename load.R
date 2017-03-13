@@ -1,8 +1,10 @@
 init <- function(){
-packages <- c("readr", "Matrix", "grid", "arules", "arulesViz","cluster")
+packages <- c("rmarkdown","knitr" , "readr", "Matrix", "grid", "arules", "arulesViz","cluster")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())))  
 }
+library(rmarkdown)
+library(knitr)
 library(readr)
 library(Matrix)
 library(grid)

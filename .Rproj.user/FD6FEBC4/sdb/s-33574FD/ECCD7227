@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "if(!exists(\"init\", mode=\"function\")) source(\"load.R\")\ninit()\n\nif(!exists(\"dataFrameToTransaction\", mode=\"function\")) source(\"loadData.R\")\ntransactions <- dataFrameToTransaction()\n\nif(!exists(\"calcDissimilarity\", mode=\"function\")) source(\"clustering.R\")\ndiss <- calcDissimilarity(transactions)\ncv <- getClusteringVectors(diss)\n##s <- silhouette(transactions,PamObj)\nclu <- hCluster(diss)\nplot(clu)\n\nclusplot(cv, main = \"Cluster plot, k = 6\", \n         color = TRUE)\n",
+    "created" : 1489367644624.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3653895011",
+    "id" : "ECCD7227",
+    "lastKnownWriteTime" : 1489376779,
+    "last_content_update" : 1489376779540,
+    "path" : "C:/Users/José/Desktop/dmProject/DataMining/test.R",
+    "project_path" : "test.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
