@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"report\"\nauthor: \"José Ferreira\"\ndate: \"13 de Março de 2017\"\noutput: pdf_document\n---\n\n```{r setup, include=FALSE}\nknitr::opts_chunk$set(echo = TRUE)\n```\n\n## R Markdown\n\nThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.\n\nWhen you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:\n\n\n\n```{r raw}\nsummary(raw)\n```\n```{r cv}\nplot(silhouette)\n```\n\n\n\n\n\n```{r clu}\nplot(clu)\n```\n\n## Including Plots  You can also embed plots, for example:\n```{r c}\nfor (i in 1:6)\n{\n  itemFrequencyPlot(c[[i]], population = transactions, support = 0.2)\n}\n```\n\n\n```{r c}\nfor (i in 1:6)\n{\n  plot(head(sort(freqItemsByCluster[[i]] , by=\"lift\"), 5),method=\"graph\",control=list(cex=.7))\n}\n```\n\n\n```{r c}\nfor (i in 1:6)\n{\n  plot(head(sort(rulesByCluster[[i]] , by=\"chiSquared\"), 5),method=\"graph\", control=list(cex=.7))\n}\n```\n\n\n\nNote that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.\n",
+    "created" : 1489373192705.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3261237058",
+    "id" : "63D330F",
+    "lastKnownWriteTime" : 1489689779,
+    "last_content_update" : 1489689780124,
+    "path" : "C:/Users/José/Desktop/dmProject/DataMining/report.rmd",
+    "project_path" : "report.rmd",
+    "properties" : {
+        "last_setup_crc32" : "50351BCFbb338d19",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "\ndiss <- readDissFromFile()\ncv <- getClusteringVectors(diss)\n## compare original and processed df\nclu <- hCluster(diss)\nsummary(clu)\n\n\n",
+    "created" : 1489689619140.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3560214346",
+    "id" : "C5AD38EB",
+    "lastKnownWriteTime" : 1489692687,
+    "last_content_update" : 1489692687201,
+    "path" : "C:/Users/José/Desktop/dmProject/DataMining/testLoad.R",
+    "project_path" : "testLoad.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

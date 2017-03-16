@@ -1,6 +1,16 @@
-dataFrameToTransaction <- function(){
-raw = read_csv("Accidents_2015.csv" )
+readDissFromFile <- function(){
+##  con <- gzfile("diss.rds")
+  tra <- readRDS("diss.rds")
+  tra
+}
 
+
+readDataFrame <- function(){
+  raw = read_csv("Accidents_2015.csv" )
+  raw
+}
+
+dataFrameToTransaction <- function(raw){
 ### Data Cleaning
 ##raw$Accident_Index <- factor(raw$Accident_Index)
 raw$Accident_Index <- NULL

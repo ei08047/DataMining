@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "\n\nif(!exists(\"init\", mode=\"function\")) source(\"load.R\")\ninit()\nallTransactions <- DataFrameToTransaction()\nprint(class(allTransactions))\n\n\n\n\n\n\n\n## get sample and calc dissimilarity\nset.seed(1234)\ns <- sample(trans, 20000)\nd <- dissimilarity(s, method = \"cosine\")\nclustering <- pam(d, k = 2)\nplot(clustering)\n\nslightSeverity <- subset(trans,items %in% \"Accident_Severity=Slight\")\nseriousSeverity <- subset(trans,items %in% \"Accident_Severity=Serious\" | items %in% \"Accident_Severity=Fatal\")\nseriousSeverity.freqItems <- apriori(seriousSeverity, parameter= list(support=0.4, target= \"frequent itemsets\"))\nquality(seriousSeverity.freqItems)$lift <- interestMeasure(seriousSeverity.freqItems, measure=\"lift\", trans = trans)\n\nslightSeverity.OneCasuality <- subset(slightSeverity,items %in% \"Number_of_Casualties=1\" & items %in% \"Accident_Severity=Slight\")\n\n\nitemFrequencyPlot(slightSeverity, topN=25,population=trans,  cex.names=.5)\nitemFrequencyPlot(seriousSeverity, topN=25,population=trans,  cex.names=.5)\n\n\nfrequentItems <- apriori(trans, parameter= list(support=0.4, target= \"frequent itemsets\"))\nfrequentItems.sorted <- sort(frequentItems, by=\"support\")\nquality(frequentItems)$lift <- interestMeasure(frequentItems, measure=\"lift\", trans = trans)\ninspect(head(sort(frequentItems, by = \"lift\"), n=10))\n\n\n\nrules.sub_slight = apriori(slightSeverity,parameter = list(supp = 0.5, conf = 0.9, target = \"rules\"))\nrules.sub_seriousSeverity = apriori(seriousSeverity,parameter = list(supp = 0.5, conf = 0.9, target = \"rules\"))\n\n\n\n\n\n\n\n\n\n\n### ti+ps+\n## combine rules rComb <- c(r1, r2)\n## union of rules rUnion <- union(r1,r2)\n\n\ndata(\"Groceries\")\nct <- crossTable(Groceries, sort=TRUE)\nct[1:5, 1:5]\nsp <- crossTable(Groceries, measure=\"support\", sort=TRUE)\nsp[1:5,1:5]\nlift <- crossTable(Groceries, measure=\"lift\", sort=TRUE)\nlift[1:5,1:5]\nchi2 <- crossTable(Groceries, measure=\"chiSquared\", sort=TRUE)\nchi2[1:5,1:5]\n\n###",
+    "created" : 1489367629548.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2282158867",
+    "id" : "E04A3A94",
+    "lastKnownWriteTime" : 1489426201,
+    "last_content_update" : 1489426201693,
+    "path" : "C:/Users/José/Desktop/dmProject/DataMining/main.R",
+    "project_path" : "main.R",
+    "properties" : {
+        "docOutlineVisible" : "0",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

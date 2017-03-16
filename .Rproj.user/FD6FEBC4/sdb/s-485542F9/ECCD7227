@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "if(!exists(\"init\", mode=\"function\")) source(\"load.R\")\nif(!exists(\"dataFrameToTransaction\", mode=\"function\")) source(\"loadData.R\")\nif(!exists(\"calcDissimilarity\", mode=\"function\")) source(\"clustering.R\")\ninit()\nraw <- readDataFrame()\ntransactions <- dataFrameToTransaction(raw)\ndiss <- calcDissimilarity(transactions)\ncv <- getClusteringVectors(diss)\n## compare original and processed df\nclu <- hCluster(diss)\n##plot hClust\n\nallLabels <- predict(transactions[cv$medoids], transactions,method = \"Jaccard\")\n##clusplot(cv, main = \"Cluster plot, k = 6\", color = TRUE)\nc <- split(transactions, allLabels)\n\n##itemFrequencyPlot(c[[2]], population = transactions, support = 0.2)\nfreqItemsByCluster = list()\nfor( i in 1:6)\n{\n  freqItemsByCluster[[i]] <- apriori(c[[i]], parameter= list(support=0.5, target= \"frequent itemsets\"))\n  ##freqItemsByCluster[[i]].sorted <- sort(freqItemsByCluster[[i]], by=\"support\")\n  quality(freqItemsByCluster[[i]])$lift <- interestMeasure(freqItemsByCluster[[i]], measure=\"lift\", transactions = transactions)\n}\n\nrulesByCluster = list()\nfor(i in 1:6)\n{\n  rulesByCluster[[i]] <-apriori(c[[i]],parameter = list(supp = 0.5, conf = 0.7, target = \"rules\"))\n  quality(rulesByCluster[[i]])$chiSquared <- interestMeasure(rulesByCluster[[i]], measure=\"chiSquared\", transactions = transactions)\n}\n##rulesC6.sub_serious  <- subset(rulesC6, (rhs %in% c(\"Accident_Severity=Serious\"))  )\n\n\n##quality(rulesC6)$chiSquared <- interestMeasure(rulesC6, measure=\"chiSquared\", transactions = transactions)\n##summary(rulesC6)\n##inspect(head(sort(rulesC6, by = \"chiSquared\"), n=10))\n\n\n##plot(head(sort(rulesC6, by=\"chiSquared\"), 5),method=\"graph\", control=list(cex=.7))\n\n##rulesC6.sub_serious.sorted <- sort(rulesC6.sub_serious, by=\"support\")\n##quality(rulesC6.sub_serious)$lift <- interestMeasure(rulesC6.sub_serious, measure=\"lift\", transactions = transactions)",
+    "created" : 1489367644624.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "570747335",
+    "id" : "ECCD7227",
+    "lastKnownWriteTime" : 1489689776,
+    "last_content_update" : 1489689776365,
+    "path" : "C:/Users/José/Desktop/dmProject/DataMining/test.R",
+    "project_path" : "test.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

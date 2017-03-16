@@ -1,3 +1,4 @@
+
 getSample <- function(transactions,numSamples){
   set.seed(1234)
   s <- sample(transactions, numSamples)
@@ -7,7 +8,7 @@ getSample <- function(transactions,numSamples){
 calcDissimilarity <- function(transactions)
 {
 ## get sample and calc dissimilarity
-s <- getSample(transactions,5000)
+s <- getSample(transactions,8000)
 d <- dissimilarity(s, method = "cosine")
 d
 }
@@ -22,5 +23,8 @@ hCluster <- function(dissimilarity,transactions)
   hcl <- hclust(dissimilarity)
   hcl
 }
+
+
+
 
 

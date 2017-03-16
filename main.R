@@ -33,7 +33,8 @@ itemFrequencyPlot(seriousSeverity, topN=25,population=trans,  cex.names=.5)
 frequentItems <- apriori(trans, parameter= list(support=0.4, target= "frequent itemsets"))
 frequentItems.sorted <- sort(frequentItems, by="support")
 quality(frequentItems)$lift <- interestMeasure(frequentItems, measure="lift", trans = trans)
-##inspect(head(sort(frequentItems, by = "lift"), n=10))
+inspect(head(sort(frequentItems, by = "lift"), n=10))
+
 
 
 rules.sub_slight = apriori(slightSeverity,parameter = list(supp = 0.5, conf = 0.9, target = "rules"))

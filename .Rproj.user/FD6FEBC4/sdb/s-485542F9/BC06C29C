@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "init <- function(){\npackages <- c(\"rmarkdown\",\"knitr\" , \"readr\", \"Matrix\", \"grid\", \"arules\", \"arulesViz\",\"cluster\")\nif (length(setdiff(packages, rownames(installed.packages()))) > 0) {\n  install.packages(setdiff(packages, rownames(installed.packages())))  \n}\nlibrary(rmarkdown)\nlibrary(knitr)\nlibrary(readr)\nlibrary(Matrix)\nlibrary(grid)\nlibrary(arules)\nlibrary(arulesViz)\nlibrary(cluster)\n##summary(installed.packages())\n}",
+    "created" : 1489367669799.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1912650619",
+    "id" : "BC06C29C",
+    "lastKnownWriteTime" : 1489689791,
+    "last_content_update" : 1489689791046,
+    "path" : "C:/Users/José/Desktop/dmProject/DataMining/load.R",
+    "project_path" : "load.R",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
