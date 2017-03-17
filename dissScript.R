@@ -86,7 +86,7 @@ trans = as(prepared, "transactions")
 return (trans)
 }
 
-init <- function(){
+calcDiss <- function(df){ ##TODO: params
 raw <- readDataFrame()
 transactions <- dataFrameToTransaction(raw)
 sample <- getSample(transactions,15000)
@@ -95,7 +95,7 @@ cv <- pam(diss,k=6)
 saveRDS(diss,"diss.rds")
 }
 
- init()
+calcDiss()
 
 
  

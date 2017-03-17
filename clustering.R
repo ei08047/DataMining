@@ -1,4 +1,5 @@
-
+library(cluster)
+library(arules)
 getSample <- function(transactions,numSamples){
   set.seed(1234)
   s <- sample(transactions, numSamples)

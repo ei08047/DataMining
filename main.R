@@ -1,48 +1,34 @@
+source("clustering.R")
+if(!exists("init", mode="function")){source("init.R")}
+if(!exists("raw", mode="object")){raw <- source("loadData.R")}
+if(!exists("transactions", mode="object")){transactions <- dataFrameToTransaction(raw)}
+if(!exists("diss", mode="object")){diss <- readDissFromFile()}
+
+clusteringVectors <- getClusteringVectors(diss)
+
+clu <- hCluster(diss)
+##plot hClust
 
 
-if(!exists("init", mode="function")) source("load.R")
-init()
-allTransactions <- DataFrameToTransaction()
-print(class(allTransactions))
+allLabels <- predict(transactions[clusteringVectors$medoids], transactions,method = "Jaccard")
+##clusplot(cv, main = "Cluster plot, k = 6", color = TRUE)
+c <- split(transactions, allLabels)
 
+##itemFrequencyPlot(c[[2]], population = transactions, support = 0.2)
+freqItemsByCluster = list()
+for( i in 1:6)
+{
+  freqItemsByCluster[[i]] <- apriori(c[[i]], parameter= list(support=0.5, target= "frequent itemsets"))
+  ##freqItemsByCluster[[i]].sorted <- sort(freqItemsByCluster[[i]], by="support")
+  quality(freqItemsByCluster[[i]])$lift <- interestMeasure(freqItemsByCluster[[i]], measure="lift", transactions = transactions)
+}
 
-
-
-
-
-
-## get sample and calc dissimilarity
-set.seed(1234)
-s <- sample(trans, 20000)
-d <- dissimilarity(s, method = "cosine")
-clustering <- pam(d, k = 2)
-plot(clustering)
-
-slightSeverity <- subset(trans,items %in% "Accident_Severity=Slight")
-seriousSeverity <- subset(trans,items %in% "Accident_Severity=Serious" | items %in% "Accident_Severity=Fatal")
-seriousSeverity.freqItems <- apriori(seriousSeverity, parameter= list(support=0.4, target= "frequent itemsets"))
-quality(seriousSeverity.freqItems)$lift <- interestMeasure(seriousSeverity.freqItems, measure="lift", trans = trans)
-
-slightSeverity.OneCasuality <- subset(slightSeverity,items %in% "Number_of_Casualties=1" & items %in% "Accident_Severity=Slight")
-
-
-itemFrequencyPlot(slightSeverity, topN=25,population=trans,  cex.names=.5)
-itemFrequencyPlot(seriousSeverity, topN=25,population=trans,  cex.names=.5)
-
-
-frequentItems <- apriori(trans, parameter= list(support=0.4, target= "frequent itemsets"))
-frequentItems.sorted <- sort(frequentItems, by="support")
-quality(frequentItems)$lift <- interestMeasure(frequentItems, measure="lift", trans = trans)
-inspect(head(sort(frequentItems, by = "lift"), n=10))
-
-
-
-rules.sub_slight = apriori(slightSeverity,parameter = list(supp = 0.5, conf = 0.9, target = "rules"))
-rules.sub_seriousSeverity = apriori(seriousSeverity,parameter = list(supp = 0.5, conf = 0.9, target = "rules"))
-
-
-
-
+rulesByCluster = list()
+for(i in 1:6)
+{
+  rulesByCluster[[i]] <-apriori(c[[i]],parameter = list(supp = 0.5, conf = 0.7, target = "rules"))
+  quality(rulesByCluster[[i]])$chiSquared <- interestMeasure(rulesByCluster[[i]], measure="chiSquared", transactions = transactions)
+}
 
 
 
