@@ -10,5 +10,7 @@ library(grid)
 library(arules)
 library(arulesViz)
 library(cluster)
-##summary(installed.packages())
+summary(installed.packages())
 }
+
+init()

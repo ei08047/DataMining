@@ -20,8 +20,8 @@ When you click the **Knit** button a document will be generated that includes bo
 ```{r raw}
 summary(raw)
 ```
-```{r cv}
-plot(silhouette)
+```{r clusteringVectors}
+plot(clusteringVectors)
 ```
 
 
@@ -29,7 +29,14 @@ plot(silhouette)
 
 
 ```{r clu}
-plot(clu)
+##plot(clu)
+
+plot(clu, labels = NULL, hang = 0.1, check = TRUE,
+     axes = TRUE, frame.plot = FALSE, ann = TRUE,
+     main = "Cluster Dendrogram",
+     sub = NULL, xlab = NULL)
+
+
 ```
 
 ## Including Plots  You can also embed plots, for example:
@@ -47,7 +54,13 @@ for (i in 1:6)
   plot(head(sort(freqItemsByCluster[[i]] , by="lift"), 5),method="graph",control=list(cex=.7))
 }
 ```
-
+```{r c}
+for (i in 1:6)
+{
+  ##plot(maxfreqItemsByCluster[[i]], method="graph", control=list(type="itemsets") )
+  
+}
+```
 
 ```{r c}
 for (i in 1:6)

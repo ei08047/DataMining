@@ -13,6 +13,7 @@ clu <- hCluster(diss)
 allLabels <- predict(transactions[clusteringVectors$medoids], transactions,method = "Jaccard")
 ##clusplot(cv, main = "Cluster plot, k = 6", color = TRUE)
 c <- split(transactions, allLabels)
+summary(c)
 
 ##itemFrequencyPlot(c[[2]], population = transactions, support = 0.2)
 freqItemsByCluster = list()
@@ -20,15 +21,34 @@ for( i in 1:6)
 {
   freqItemsByCluster[[i]] <- apriori(c[[i]], parameter= list(support=0.5, target= "frequent itemsets"))
   ##freqItemsByCluster[[i]].sorted <- sort(freqItemsByCluster[[i]], by="support")
-  quality(freqItemsByCluster[[i]])$lift <- interestMeasure(freqItemsByCluster[[i]], measure="lift", transactions = transactions)
+  quality(freqItemsByCluster[[i]])$lift <- interestMeasure(freqItemsByCluster[[i]], measure="lift", transactions = c[[i]] ,reuse=FALSE)
+  quality(freqItemsByCluster[[i]])$crossSupportRatio <- interestMeasure(freqItemsByCluster[[i]], measure="crossSupportRatio", transactions = c[[i]] ,reuse=FALSE)
+  quality(freqItemsByCluster[[i]])$crossSupportRatio <- interestMeasure(freqItemsByCluster[[i]], measure="crossSupportRatio", transactions = c[[i]] ,reuse=FALSE)
 }
+
+
+
+
+maxfreqItemsByCluster = list()
+for( i in 1:6)
+{
+  maxfreqItemsByCluster[[i]] <- apriori(c[[i]], parameter= list(support=0.5, target= "maximally frequent itemsets"))
+  quality(maxfreqItemsByCluster[[i]])$lift <- interestMeasure(maxfreqItemsByCluster[[i]], measure="lift", transactions = transactions)
+}
+
+##get top freq items
+
 
 rulesByCluster = list()
 for(i in 1:6)
 {
   rulesByCluster[[i]] <-apriori(c[[i]],parameter = list(supp = 0.5, conf = 0.7, target = "rules"))
-  quality(rulesByCluster[[i]])$chiSquared <- interestMeasure(rulesByCluster[[i]], measure="chiSquared", transactions = transactions)
+  ##rulesByCluster[[i]] <- get rules
+  rul <- getRules(c[[i]],0.5,0.7)
+  rul <- measureQuality(rul, c[[i]])  ## scope = transactions ??
+  rulesByCluster[[i]] <- rul
 }
+
 
 
 

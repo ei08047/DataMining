@@ -1,4 +1,0 @@
-"0","for (i in 1:6)"
-"0","{"
-"0","  plot(head(sort(rulesByCluster[[i]] , by=""chiSquared""), 5),method=""graph"", control=list(cex=.7))"
-"0","}"
