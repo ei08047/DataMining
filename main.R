@@ -1,4 +1,6 @@
 source("clustering.R")
+source("BasketAnalisysUtil.R")
+source("RuleEvaluation.R")
 if(!exists("init", mode="function")){source("init.R")}
 if(!exists("raw", mode="object")){raw <- source("loadData.R")}
 if(!exists("transactions", mode="object")){transactions <- dataFrameToTransaction(raw)}
@@ -10,47 +12,43 @@ clu <- hCluster(diss)
 ##plot hClust
 
 
+
+
 allLabels <- predict(transactions[clusteringVectors$medoids], transactions,method = "Jaccard")
 ##clusplot(cv, main = "Cluster plot, k = 6", color = TRUE)
 c <- split(transactions, allLabels)
+
+
+silhouette <- silhouette(clusteringVectors$clustering,diss)
+
+
 summary(c)
 
 ##itemFrequencyPlot(c[[2]], population = transactions, support = 0.2)
 freqItemsByCluster = list()
 for( i in 1:6)
 {
-  freqItemsByCluster[[i]] <- apriori(c[[i]], parameter= list(support=0.5, target= "frequent itemsets"))
-  ##freqItemsByCluster[[i]].sorted <- sort(freqItemsByCluster[[i]], by="support")
-  quality(freqItemsByCluster[[i]])$lift <- interestMeasure(freqItemsByCluster[[i]], measure="lift", transactions = c[[i]] ,reuse=FALSE)
-  quality(freqItemsByCluster[[i]])$crossSupportRatio <- interestMeasure(freqItemsByCluster[[i]], measure="crossSupportRatio", transactions = c[[i]] ,reuse=FALSE)
-  quality(freqItemsByCluster[[i]])$crossSupportRatio <- interestMeasure(freqItemsByCluster[[i]], measure="crossSupportRatio", transactions = c[[i]] ,reuse=FALSE)
+  freqItemsByCluster[[i]] <- frqItms(c[[i]],0.5,"frequent itemsets","info")
+  quality(freqItemsByCluster[[i]])$lift <- measureItems(freqItemsByCluster[[i]],"support",transactions)
+  inspect(head(freqItemsByCluster[[i]],10,by="support"))
 }
-
-
 
 
 maxfreqItemsByCluster = list()
 for( i in 1:6)
 {
-  maxfreqItemsByCluster[[i]] <- apriori(c[[i]], parameter= list(support=0.5, target= "maximally frequent itemsets"))
-  quality(maxfreqItemsByCluster[[i]])$lift <- interestMeasure(maxfreqItemsByCluster[[i]], measure="lift", transactions = transactions)
+  maxfreqItemsByCluster[[i]] <- frqItms(c[[i]],0.5,"maximally frequent itemsets","info")
+  quality(maxfreqItemsByCluster[[i]])$lift <- measureItems(maxfreqItemsByCluster[[i]],"lift",transactions)
 }
 
 ##get top freq items
 
-
 rulesByCluster = list()
 for(i in 1:6)
 {
-  rulesByCluster[[i]] <-apriori(c[[i]],parameter = list(supp = 0.5, conf = 0.7, target = "rules"))
-  ##rulesByCluster[[i]] <- get rules
-  rul <- getRules(c[[i]],0.5,0.7)
-  rul <- measureQuality(rul, c[[i]])  ## scope = transactions ??
-  rulesByCluster[[i]] <- rul
+  rulesByCluster[[i]] <- getRules(c[[i]],0.05,0.5)
+  quality(rulesByCluster[[i]])$lift <- measureQuality(rulesByCluster[[i]], c[[i]],"lift")  
 }
-
-
-
 
 
 

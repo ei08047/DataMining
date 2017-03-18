@@ -20,24 +20,33 @@ When you click the **Knit** button a document will be generated that includes bo
 ```{r raw}
 summary(raw)
 ```
-```{r clusteringVectors}
-plot(clusteringVectors)
+
+```{r transactions}
+##plot(silhouette)
+summary(transactions)
+
+```
+
+
+```{r silhouette}
+##plot(silhouette)
+summary(silhouette)
+
 ```
 
 
 
 
 
-```{r clu}
-##plot(clu)
-
-plot(clu, labels = NULL, hang = 0.1, check = TRUE,
-     axes = TRUE, frame.plot = FALSE, ann = TRUE,
-     main = "Cluster Dendrogram",
-     sub = NULL, xlab = NULL)
-
+```{r c, include=FALSE}
+for(i in 1:6)
+{
+  summary(c[[i]])
+}
 
 ```
+
+
 
 ## Including Plots  You can also embed plots, for example:
 ```{r c}
@@ -51,24 +60,27 @@ for (i in 1:6)
 ```{r c}
 for (i in 1:6)
 {
-  plot(head(sort(freqItemsByCluster[[i]] , by="lift"), 5),method="graph",control=list(cex=.7))
+  plot(head(sort(freqItemsByCluster[[i]] , by="support"), 5),method="graph",control=list(cex=.7))
 }
 ```
 ```{r c}
 for (i in 1:6)
 {
-  ##plot(maxfreqItemsByCluster[[i]], method="graph", control=list(type="itemsets") )
-  
+  plot(head(sort(maxfreqItemsByCluster[[i]],by="lift"),10))
+  inspect(head(freqItemsByCluster[[i]],10,by="lift"))
 }
 ```
 
 ```{r c}
-for (i in 1:6)
+
+ ## plot(head(sort(rulesByCluster[[1]] , decreasing = TRUE), 5),method="graph", ## control=list(cex=.7))
+for(i in 1:6)
 {
-  plot(head(sort(rulesByCluster[[i]] , by="chiSquared"), 5),method="graph", control=list(cex=.7))
+  inspect(head(sort(rulesByCluster[[1]],by="support"),5))
 }
 ```
 
 
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+

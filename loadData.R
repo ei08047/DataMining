@@ -9,6 +9,8 @@ readDataFrame <- function(){
 ## discretization & cleaning method
 dataFrameToTransaction <- function(raw){
   ### Data Cleaning
+  
+  
   raw$Accident_Index <- factor(raw$Accident_Index)
   raw$Accident_Index <- NULL
   
@@ -82,8 +84,8 @@ dataFrameToTransaction <- function(raw){
   
   ##raw$LSOA_of_Accident_Location <- as.factor(raw$LSOA_of_Accident_Location)
   raw$LSOA_of_Accident_Location <- NULL
-  prepared <- raw[complete.cases(raw),]
-  trans = as(prepared, "transactions")
+  raw <- raw[complete.cases(raw),]
+  trans = as(raw, "transactions")
   return (trans)
 }
 

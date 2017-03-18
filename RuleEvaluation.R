@@ -4,25 +4,29 @@
 # cluster , support , 
 getRules <- function(c,su,co){
   rul <-apriori(c, parameter = list(supp = su, conf = co, target = "rules"))
+  summary(rul)
+  inspect(head(sort(rul, by="conf"),5))
   rul
 }
 
 # rules , scope
-measureQuality <- function(rules , scope )
+measureQuality <- function(rules , scope,metric )
 {
   ## calc quality metric based on:
   ##support
-  quality(rules)$lift <- 
-    interestMeasure(rules, measure="lift", transactions = scope ,reuse=FALSE)
-  ##confidence
-  quality(freqItemsByCluster[[i]])$confidence <- 
-    interestMeasure(rules, measure="confidence", transactions = scope ,reuse=FALSE)
-  ##cros-suportt-ratio,
-  quality(freqItemsByCluster[[i]])$crossSupportRatio <- 
-    interestMeasure(freqItemsByCluster[[i]], measure="crossSupportRatio", transactions = scope ,reuse=FALSE)
+  q <- interestMeasure(rules, measure=metric, transactions = scope )
+  q
+
   
   if (FALSE) {
-  
+    ##confidence
+    quality(rules)$confidence <- 
+      interestMeasure(rules, measure="confidence", transactions = scope)
+    rules
+    ##cros-suportt-ratio,
+    quality(freqItemsByCluster[[i]])$crossSupportRatio <- 
+      interestMeasure(freqItemsByCluster[[i]], measure="crossSupportRatio", transactions = scope ,reuse=FALSE)
+    
   
   ##cosine,
   quality(freqItemsByCluster[[i]])$cosine <- 
