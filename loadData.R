@@ -1,16 +1,15 @@
 library(readr)
 library(arules)
+
 ## read raw dataFrame from csv
-readDataFrame <- function(){
-  raw = read_csv("Accidents_2015.csv" )
+readDataFrame <- function(name){
+  raw = read_csv(name)
   raw
 }
 
 ## discretization & cleaning method
 dataFrameToTransaction <- function(raw){
   ### Data Cleaning
-  
-  
   raw$Accident_Index <- factor(raw$Accident_Index)
   raw$Accident_Index <- NULL
   
@@ -97,10 +96,6 @@ readDissFromFile <- function(){
 }
 
 
-
-##On source 
-raw <- readDataFrame()
-raw
 
 
 

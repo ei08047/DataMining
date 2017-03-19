@@ -19,9 +19,9 @@ getClusteringVectors <- function(diss){
   cv
 }
 
-hCluster <- function(dissimilarity,pamCv)
+hCluster <- function(dissimilarity)
 {
-  hcl <- hclust(dissimilarity,members=pamCv)
+  hcl <- hclust(dissimilarity)
   hcl
 }
 
