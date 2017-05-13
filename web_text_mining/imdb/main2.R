@@ -1,3 +1,8 @@
+#TODO's:
+# encapsulate as a function
+# limit number of results
+# get movie ID
+
 # Submit the form on indeed.com for a job description and location using html_form() and set_values()
 query = "born to kill"
 session <- html_session("http://www.imdb.com")
@@ -23,10 +28,5 @@ submit_form2 <- function(session, form){
 }
 
 session1 <- submit_form2(session, form)
-
-
-
-
-
 tdist <- html_node(session1, "table.findList") %>% html_table(header = FALSE)
 
