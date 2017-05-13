@@ -1,0 +1,28 @@
+Assignment 2 - Data Mining II
+Brief Introduction
+The general goal of this assignment is to check your knowledge regarding web and text mining. The assignment revolves around IMDB (http://www.imdb.com) movies and their reviews. The idea is to be able to retrieve relevant information on movies from this reference site and also to analyse the reviews (and respective scores) assigned by users of the site to the movies.
+
+Tasks
+Using the information available in the IMDB site you should accomplish a series of tasks. Below we will list a few of the main target tasks, but you are free to include other tasks to increase the value of your assignment.
+
+Find basic information (web page, diretor, cast, etc.) of a movie based on a query string of the title.
+The idea is to have a function that the user can call with a search string (that will be matched against the titles of the movies, but that can be incomplete and thus potentially matching more than one movie in the data base), and the function returns a list of the movies that match this string, by decreasing order of confidence. For each movie the basic information is returned as a list. You may add an extra parameter that controls the maximum number of retrieved movies.
+Given the IMDB ID of a movie, obtain the information on all reviews of this movie. The information we want is the text of the review and the corresponding score (the number of stars given by the reviewer). Please note that each review presents the score as an HTML image picturing the number of stars given by the user. However, if you look at the HTML source you will notice that this image has an attribute (“alt”) that contains a string with the textual information on the number of given stars, for instance, the HTML code will be something like <img width="102" height="12" alt="9/10" src="h..., which means that this review has 9 out of 10 possible stars
+A few suggestions: for scrapping the reviews data you need to find the URL of the page that contains all reviews of the movie (hint: this requires you to know how many reviews are, i.e. with the movie ID and the total number of reviews you can construct programatically the URL with all reviews and then fetch the corresponding web page for posterior scrapping of the wanted information). The R package rvest is essential for you to be able to do the scrapping. Install and study this package - a good tutorial (including examples with IMDB) can be found here. As mentioned in that tutorial, an essential tool for making your life easier is Selector Gadget, that can be easily added as a Chrome extension to find CSS selectors of parts of any web page.
+Using the reviews information (text of the review plus the score), build a data set for learning a model that can predict the grade based on the text.
+
+Using the previous data set try a few prediction models and draw conclusions from this experimental comparison.
+
+Summarise the reviews of a movie
+For instance you could eventually obtain a wordcloud of the reviews, or eventually different wordclouds for positive and negative reviews. You may obviously think of other alternative ways of summarizing the reviews information.
+What to Deliver
+You must deliver, at the provided link in the Moodle page of the subject, a ZIP file containing:
+
+An R markdown dynamic report describing your work (an rmd file)
+A PDF or HTML version of the report
+Any extra files necessary to run the report
+Note: The ZIP file should be named after the names of the group members, e.g. “AnaSilvaJoaoCastoManuelCosta.ZIP”
+
+Other Information
+Deadline: 14/May/2017
+The assignment should be made by groups of 3 students. The report should clearly identify the group members (as well as the name of the ZIP file as mentioned before)
