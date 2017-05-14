@@ -1,17 +1,10 @@
-#TODO's:
-# encapsulate as a function
-# limit number of results
-# get movie ID
+library(XML)
+library(rvest)
 
-# Submit the form on indeed.com for a job description and location using html_form() and set_values()
 query = "born to kill"
-session <- html_session("http://www.imdb.com")
-form <- html_form(session)[[1]]
-form <- set_values(form, q = query, s="tt")
 
-
+##submit form (GET)
 submit_form2 <- function(session, form){
-  library(XML)
   url <- XML::getRelativeURL(form$url, session$url)
   url <- paste(url,'?',sep='')
   values <- as.vector(rvest:::submit_request(form)$values)
@@ -27,6 +20,30 @@ submit_form2 <- function(session, form){
   html_session(url)
 }
 
-session1 <- submit_form2(session, form)
-tdist <- html_node(session1, "table.findList") %>% html_table(header = FALSE)
+getMoviesByTitle <-function(query){
+  if(query!="") {
+    print(query)
+    session <- html_session("http://www.imdb.com")
+    form <- html_form(session)[[1]]
+    form <- set_values(form, q = query, s="tt")
+    session1 <- submit_form2(session, form)
+    tdist <- html_node(session1, "table.findList") %>% html_table(header = FALSE)
+    tdist
+  }
+}
+getMoviesIds <- function(query){
+  if(query!="") {
+    print(query)
+    session <- html_session("http://www.imdb.com")
+    form <- html_form(session)[[1]]
+    form <- set_values(form, q = query, s="tt")
+    session1 <- submit_form2(session, form)
+    mov <- html_nodes(session1, ".result_text > a")  
+    ids <- html_attr(mov,"href")
+    tmp <- regexpr("(?:\\/\\w*\\/)(\\w*)", ids)
+    ids <- regmatches(ids, tmp)
+    ids <- gsub("/title/", "",ids)
+    ids
+  }
+}
 

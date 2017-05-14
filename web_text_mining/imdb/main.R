@@ -1,7 +1,7 @@
 # TODO's
 # get number of reviews (done)
-# get all reviews and its score 
-# save as data frame and write to file
+# get all reviews and its score (score missing)
+# save as data frame and write to file (done)
 
 library(rvest)
 # Store web url
@@ -11,10 +11,10 @@ getMovieUrl <-  function(id){
 }
 #get movie by id
 movieById<- function(id){
-  url <- getMovieUrl(id)
-  url
-  movie <- read_html(url)
-  movie
+    url <- getMovieUrl(id)
+    url
+    movie <- read_html(url)
+    movie
 }
 
 getRating <- function(movie){
@@ -26,8 +26,8 @@ getRating <- function(movie){
 }
 getNumReviews <- function(movie){
   #Scrape the website for the numReviews
-  numReviews <- (movie %>% html_nodes(".subText a:nth-child(1)") %>% html_text())[[2]]
-  numReviews <- strsplit(numReviews, " user")[[1]] %>%  as.numeric()
+  numReviews <- (movie %>% html_nodes(".titleReviewbarItemBorder a:nth-child(1)" ) %>% html_text() )[[1]]
+  numReviews <- strsplit(numReviews, " user")[[1]] #%>%  as.numeric()
   numReviews
 }
 # Scrape the website for the cast
@@ -51,81 +51,59 @@ getReview <- function(movie){
     html_text()
   review
 }
+
+
+##prepare url
+prepareReviewUrl <- function(page){
+  url_review_page <- gsub(" " , "",(paste("reviews?start=",page))[1])
+  url_review_page
+}
 ##navigate reviews
-navReviews <- function(session){
-  reviews_links <- jump_to(session,url = "reviews?start=")
-  reviews_links
+navReviews <- function(session,url_review_page){
+  review_page <- jump_to(session,url_review_page)
+  review_page
+}
+##scrap reviews
+scrapReviews <- function(review_page){
+  reviews <- review_page %>%  html_nodes("#tn15content div+ p") %>% html_text()
+  reviews
+} 
+##get all
+getAllreviews <- function(id){
+  
+  movie <- movieById(id)
+  url <- getMovieUrl(id)
+  session <- html_session(url)
+  page <- 0
+  count<- 0
+  myList <- list()
+  filename <- paste("C:/Users/ei08047/Desktop/DataMining/web_text_mining/reviews/" ,id,".txt")
+  while(count != numReviews)
+  {
+    url_review_page <- prepareReviewUrl(page)
+    url_review_page
+    review_page <- navReviews(session,url_review_page)
+    review_page$url
+    reviews <- scrapReviews(review_page)
+    count <- count + length(reviews)
+    page <- page + 10
+    print(reviews)
+    myList[[length(myList)+1]] <- reviews
+  }
+  write.table(myList, filename, sep="\t")
+  
 }
 
-
-
-##navigate to user reviews page 1
-##all_pages <- follow_link(all_reviews,css="td a:nth-child(1)")
-##print(all_reviews$url , length(all_reviews) )
-##all_reviews
 
 id <- 'tt1490017'
 movie <- movieById(id)
-url <- getMovieUrl(id)
-session <- html_session(url)
-session$url
 
 rating <- getRating(movie)
 numReviews <- getNumReviews(movie)
+poster <- getPoster(movie)
 cast <- getCast(movie)
 review <- getReview(movie)
 
-page <- 20
-all_pages <- navReviews(session,page)
-pageReviews <- scrapReviews(all_pages) 
 
-nextPage <- navNextPage(session,all_pages)
-session$url
-##TODO back and save to file
-##all_reviews <- navReviews(session)
- 
- 
- #TODO
- 
-all_reviews_html[1]
-all_reviews_html[2]
-all_reviews_html[3]
-all_reviews_html[4]
-all_reviews_html[5]
-all_reviews_html[6]
-all_reviews_html[7]
-all_reviews_html[8]
-all_reviews_html[9]
-all_reviews_html[10]
-##navigate to user reviews page 1
-all_pages <- follow_link(all_reviews,css="td a:nth-child(1)")
-all_pages_html <- html(all_pages) %>% html_nodes("#tn15content div+ p")
-##navigate to user reviews page 2
-all_pages <- follow_link(all_reviews,css="td a:nth-child(2)")
-all_pages_html <- html(all_pages) %>% html_nodes("#tn15content div+ p")
-
-
-all_pages <-  follow_link(movie_session,css=".quicklink:nth-child(5)")
-
-start <- 0
-count <- 0
-while (count!= numReviews) {
-  start <- start + 10
-  splitted_url <- unlist(strsplit(all_pages$url,"?")[1])
-  print(splitted_url)
-  splitted_url <- gsub(" " , "",(paste(splitted_url,"=",start)[1]) )
-  all_pages <- jump_to(all_pages ,splitted_url )
-  
-  print(all_pages$url)
-  all_pages_html <- read_html(all_pages) %>% html_nodes("#tn15content div+ p")
-  
-  print(all_pages_html)
-  count <- count + length(all_pages_html)
-}
-print(count)
-
-##df <- data.frame(a = c(1:5), b = (1:5)^2)
-
-##write.table(mydata, "c:/mydata.txt", sep="\t")
 
 
